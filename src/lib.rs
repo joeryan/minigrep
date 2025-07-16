@@ -1,16 +1,25 @@
-// pub fn run (query: string, file_path: string) -> string{
-//     println!("searching for {query}");
-//     println!("In file {file_path}");
+use std::fs;
+use std::error::Error;
 
-//     let contents = fs::read_to_string(file_path)
-//         .expect("Should have been able to read file");
+pub fn run (config: Config) -> Result<(), Box<dyn Error>> {
 
-//     println!("With Text:\n{contents}");
-// }
+    let contents = fs::read_to_string(config.file_path)?;
 
-// fn parse_config(args: &[String]) -> (&str, &str)  {
-//     // if args.len() < 3 {panic!("not enough args")};
-//     let query = &args[1]; 
-//     let file_path = &args[2];
-//     (query, file_path)    
-// }
+    println!("With Text:\n{contents}");
+    Ok(())
+}
+
+pub struct Config {
+    query: String,
+    file_path: String
+}
+impl Config {
+    pub fn build(args: &[String]) -> Result<Config, &'static str>  {
+        if args.len() < 3 {
+            return Err("not enough args");
+        }
+        let query = args[1].clone(); 
+        let file_path = args[2].clone();
+        Ok(Config {query, file_path} )
+    }
+}
