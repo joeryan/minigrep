@@ -10,8 +10,8 @@ pub fn run (config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub struct Config {
-    query: String,
-    file_path: String
+    pub query: String,
+    pub file_path: String
 }
 impl Config {
     pub fn build(args: &[String]) -> Result<Config, &'static str>  {
